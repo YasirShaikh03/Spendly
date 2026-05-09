@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spendly — Expense Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-top">
+      <div class="brand">Spend<span>ly</span></div>
+      <div class="month-nav">
+        <button class="month-btn" onclick="changeMonth(-1)">‹</button>
+        <span id="monthLabel">May 2026</span>
+        <button class="month-btn" onclick="changeMonth(1)">›</button>
+      </div>
+    </div>
+    <div class="balance-strip">
+      <div class="bal-item">
+        <div class="bal-label">Income</div>
+        <div class="bal-amount income" id="totalIncome">₹0</div>
+      </div>
+      <div class="bal-item">
+        <div class="bal-label">Balance</div>
+        <div class="bal-amount total" id="totalBalance">₹0</div>
+      </div>
+      <div class="bal-item">
+        <div class="bal-label">Expenses</div>
+        <div class="bal-amount expense" id="totalExpense">₹0</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ADD TRANSACTION FORM -->
+    <div class="add-card">
+      <div class="type-toggle">
+        <button class="type-btn expense-btn active" onclick="setType('expense')">− Expense</button>
+        <button class="type-btn income-btn" onclick="setType('income')">+ Income</button>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="flex:2">
+          <label>Description</label>
+          <input type="text" id="desc" placeholder="e.g. Lunch, Salary…" maxlength="40"/>
+        </div>
+        <div class="form-group" style="flex:1">
+          <label>Amount</label>
+          <div class="amount-wrap">
+            <span class="currency">₹</span>
+            <input type="number" id="amount" placeholder="0" min="0" step="0.01"/>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category</label>
+          <select id="category">
+            <option value="🍔 Food">🍔 Food</option>
+            <option value="🚌 Transport">🚌 Transport</option>
+            <option value="🛍️ Shopping">🛍️ Shopping</option>
+            <option value="🏥 Health">🏥 Health</option>
+            <option value="🎬 Entertainment">🎬 Entertainment</option>
+            <option value="📚 Education">📚 Education</option>
+            <option value="🏠 Housing">🏠 Housing</option>
+            <option value="💼 Salary">💼 Salary</option>
+            <option value="💰 Other Income">💰 Other Income</option>
+            <option value="📦 Other">📦 Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" id="date"/>
+        </div>
+      </div>
+      <button class="add-btn" onclick="addTransaction()">
+        <span>＋</span> Add Transaction
+      </button>
+    </div>
+
+    <!-- DONUT CHART -->
+    <div id="chartSection" style="display:none">
+      <div class="sec-title">Spending Breakdown</div>
+      <div class="chart-card">
+        <div class="donut-wrap">
+          <canvas id="donut" width="130" height="130"></canvas>
+          <div class="donut-center">
+            <div class="donut-pct" id="donutPct">0%</div>
+            <div class="donut-sub">spent</div>
+          </div>
+        </div>
+        <div class="legend" id="legend"></div>
+      </div>
+    </div>
+
+    <!-- FILTER PILLS -->
+    <div class="sec-title">Transactions</div>
+    <div class="cat-pills">
+      <div class="cat-pill active" onclick="filterCat('All', this)">All</div>
+      <div class="cat-pill" onclick="filterCat('expense', this)">Expenses</div>
+      <div class="cat-pill" onclick="filterCat('income', this)">Income</div>
+    </div>
+
+    <!-- TRANSACTION LIST -->
+    <div class="tx-list" id="txList"></div>
+
+  </main>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
