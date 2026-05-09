@@ -1,3 +1,9 @@
+## Author
+
+Yasir Shaikh
+GitHub: https://github.com/YasirShaikh03
+
+
 # 💸 Spendly — Expense Tracker
 
 A clean, minimal expense tracker built with vanilla HTML, CSS, and JavaScript. No frameworks, no dependencies — just open and use!
@@ -45,9 +51,9 @@ spendly/
 3. Go to **Settings → Pages**
 4. Under **Branch**, select `main` → click **Save**
 5. Your app will be live at:
-   ```
-   https://your-username.github.io/your-repo-name/
-   ```
+   
+   https://yasirshaikh03.github.io/Spendly/
+   
 
 ### Option 2 — Run Locally
 
@@ -114,7 +120,17 @@ Edit the CSS variables at the top of `style.css`:
 
 ## 📸 Screenshots
 
-> Add your own screenshots here after deploying!
+<img width="1894" height="905" alt="image" src="https://github.com/user-attachments/assets/da9d273b-05e0-46e7-a966-6dcab1898924" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/df7c83c1-df37-4bf1-9357-50db3a55814f" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ea670b4d-ae87-4fd1-9a4d-6d92e80b14e0" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/0e35e1c2-ba54-4b67-ab91-5e2b98d95fd5" />
+
+
+
+
 
 ---
 
@@ -125,6 +141,12 @@ MIT License — free to use, modify, and distribute.
 ---
 
 ## 🙌 Credits
+
+## Author
+
+Yasir Shaikh
+GitHub: https://github.com/YasirShaikh03
+
 
 Built with:
 - [Syne](https://fonts.google.com/specimen/Syne) & [Instrument Sans](https://fonts.google.com/specimen/Instrument+Sans) — Google Fonts
