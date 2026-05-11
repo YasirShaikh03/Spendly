@@ -1,3 +1,9 @@
+## Author
+
+Yasir Shaikh
+GitHub: https://github.com/YasirShaikh03
+
+
 <div align="center">
 
 <img src="https://img.shields.io/badge/version-3.0.0-6c47ff?style=for-the-badge&logo=sparkles&logoColor=white"/>
@@ -926,5 +932,10 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 <br/>
 
 ⭐ Star this repo if Spendly AI helped you take control of your finances!
+
+## Author
+
+Yasir Shaikh
+GitHub: https://github.com/YasirShaikh03
 
 </div>
