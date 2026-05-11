@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║          SPENDLY AI — Financial Operating System v3.0       ║
+  ║          Author: Shaikh Yasir                               ║
+  ║          GitHub: https://github.com/YasirShaikh03          ║
+  ║          Version: 3.0.0 — Ultra Premium AI Edition         ║
+  ║          Enhanced & Completed by Claude Sonnet              ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>Spendly AI v3.0 — Financial OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css
+"/>
+</head>
+<body>
+<div id="cursorGlow"></div>
+
+<!-- LOADER -->
+<div class="loader-screen" id="loaderScreen">
+  <div style="position:relative;z-index:2;text-align:center;">
+    <div class="loader-orb"></div>
+    <div class="loader-brand">Spend<em>ly</em> <span>AI</span></div>
+    <div class="loader-version">v3.0 · Ultra Premium Edition · Powered by Claude AI</div>
+    <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
+    <div class="loader-text" id="loaderText">Initializing AI engine…</div>
+  </div>
+  <div class="loader-particles" id="loaderParticles"></div>
+</div>
+
+<!-- PIN SCREEN -->
+<div class="pin-screen" id="pinScreen" style="display:none">
+  <div class="pin-inner">
+    <div class="pin-logo">◈</div>
+    <div class="pin-title">Spendly AI</div>
+    <div class="pin-subtitle">Enter your PIN to continue</div>
+    <div class="pin-dots" id="pinDots"><span></span><span></span><span></span><span></span></div>
+    <div class="pin-pad">
+      <button onclick="pinPress(1)">1</button><button onclick="pinPress(2)">2</button><button onclick="pinPress(3)">3</button>
+      <button onclick="pinPress(4)">4</button><button onclick="pinPress(5)">5</button><button onclick="pinPress(6)">6</button>
+      <button onclick="pinPress(7)">7</button><button onclick="pinPress(8)">8</button><button onclick="pinPress(9)">9</button>
+      <button onclick="pinPress('del')">⌫</button><button onclick="pinPress(0)">0</button><button onclick="pinPress('ok')" class="pin-ok">✓</button>
+    </div>
+    <button class="pin-skip" onclick="skipPin()">Skip Lock →</button>
+  </div>
+</div>
+
+<!-- ALERT POPUP -->
+<div class="alert-popup" id="alertPopup">
+  <div class="alert-icon" id="alertIcon">⚠️</div>
+  <div>
+    <div class="alert-title" id="alertTitle">Alert</div>
+    <div class="alert-body" id="alertBody"></div>
+  </div>
+  <button class="alert-close" onclick="closeAlert()">✕</button>
+</div>
+
+<!-- COMMAND PALETTE -->
+<div class="cmd-overlay" id="cmdOverlay" onclick="closeCmdPalette(event)">
+  <div class="cmd-palette">
+    <div class="cmd-input-wrap">
+      <span class="cmd-icon">⌕</span>
+      <input class="cmd-input" id="cmdInput" placeholder="Search commands…" oninput="filterCmd()" onkeydown="handleCmdKey(event)"/>
+      <span class="cmd-shortcut">ESC to close</span>
+    </div>
+    <div class="cmd-list" id="cmdList"></div>
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div class="app-shell" id="appShell" style="display:none">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-orb">◈</div>
+      <div>
+        <div class="brand-name">Spend<em>ly</em> <span class="brand-ai">AI</span></div>
+        <div class="brand-sub">Financial OS v3.0</div>
+      </div>
+    </div>
+    <div class="sidebar-score" id="sidebarScore">
+      <div class="ss-label">Financial Health</div>
+      <div class="ss-score" id="ssScore">—</div>
+      <div class="ss-grade" id="ssGrade">—</div>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-btn active" data-view="dashboard" onclick="switchView('dashboard',this)"><span class="nav-icon">⬡</span><span>Dashboard</span></button>
+      <button class="nav-btn" data-view="transactions" onclick="switchView('transactions',this)"><span class="nav-icon">⇄</span><span>Transactions</span></button>
+      <button class="nav-btn" data-view="analytics" onclick="switchView('analytics',this)"><span class="nav-icon">◎</span><span>Analytics</span></button>
+      <button class="nav-btn" data-view="budget" onclick="switchView('budget',this)"><span class="nav-icon">◐</span><span>Budget</span></button>
+      <button class="nav-btn" data-view="ai" onclick="switchView('ai',this)"><span class="nav-icon">✦</span><span>AI Advisor</span><span class="nav-badge">AI</span></button>
+      <button class="nav-btn" data-view="goals" onclick="switchView('goals',this)"><span class="nav-icon">◎</span><span>Goals</span></button>
+      <button class="nav-btn" data-view="investments" onclick="switchView('investments',this)"><span class="nav-icon">△</span><span>Portfolio</span></button>
+      <button class="nav-btn" data-view="wallets" onclick="switchView('wallets',this)"><span class="nav-icon">◈</span><span>Wallets</span><span class="nav-badge">NEW</span></button>
+      <button class="nav-btn" data-view="calendar" onclick="switchView('calendar',this)"><span class="nav-icon">◷</span><span>Calendar</span><span class="nav-badge">NEW</span></button>
+      <button class="nav-btn" data-view="gamification" onclick="switchView('gamification',this)"><span class="nav-icon">★</span><span>Achievements</span></button>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sf-row">
+        <button class="sf-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+        <button class="sf-btn" onclick="openThemePanel()">🎨</button>
+        <button class="sf-btn" onclick="openNotifications()">🔔<span class="notif-dot" id="notifDot"></span></button>
+        <button class="sf-btn" onclick="togglePin()">🔒</button>
+      </div>
+      <button class="export-btn" onclick="showExportMenu()">↓ Export Data</button>
+    </div>
+  </aside>
+
+  <!-- MOBILE BAR -->
+  <div class="mobile-bar" id="mobileBar">
+    <button class="hamburger" onclick="toggleSidebar()">☰</button>
+    <span class="brand-name">Spend<em>ly</em> <span class="brand-ai">AI</span></span>
+    <div style="display:flex;gap:8px">
+      <button class="mob-icon-btn" onclick="openCmdPalette()">⌕</button>
+      <button class="mob-icon-btn" onclick="openNotifications()">🔔</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main-wrap" id="mainWrap">
+
+    <!-- DASHBOARD -->
+    <section class="view active" id="view-dashboard">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Overview</h1>
+          <div class="month-nav">
+            <button class="mn-btn" onclick="changeMonth(-1)">‹</button>
+            <span id="monthLabel">—</span>
+            <button class="mn-btn" onclick="changeMonth(1)">›</button>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button class="action-btn ghost" onclick="openModal('expense')">＋ Expense</button>
+          <button class="action-btn primary" onclick="openModal('income')">＋ Income</button>
+        </div>
+      </div>
+      <div class="ai-digest" id="aiDigest">
+        <div class="aid-icon">✦</div>
+        <div class="aid-content">
+          <div class="aid-title">AI Daily Digest</div>
+          <div class="aid-text" id="aiDigestText">Analyzing your financial patterns…</div>
+        </div>
+        <button class="aid-refresh" onclick="refreshDigest()">↻</button>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi-card income-card glass-card">
+          <div class="kpi-label">Income</div>
+          <div class="kpi-amount" id="kpiIncome">₹0</div>
+          <div class="kpi-bar"><div class="kpi-fill income-fill" id="incomeBar" style="width:0%"></div></div>
+          <div class="kpi-sub" id="kpiIncomeSub">0 transactions</div>
+          <div class="kpi-glow income-glow"></div>
+        </div>
+        <div class="kpi-card expense-card glass-card">
+          <div class="kpi-label">Expenses</div>
+          <div class="kpi-amount" id="kpiExpense">₹0</div>
+          <div class="kpi-bar"><div class="kpi-fill expense-fill" id="expenseBar" style="width:0%"></div></div>
+          <div class="kpi-sub" id="kpiExpenseSub">0 transactions</div>
+          <div class="kpi-glow expense-glow"></div>
+        </div>
+        <div class="kpi-card balance-card glass-card">
+          <div class="kpi-label">Balance</div>
+          <div class="kpi-amount" id="kpiBalance">₹0</div>
+          <div class="kpi-tag" id="balTag">—</div>
+          <div class="kpi-glow balance-glow"></div>
+        </div>
+        <div class="kpi-card health-card glass-card">
+          <div class="kpi-label">Health Score</div>
+          <div class="kpi-amount" id="kpiHealthScore">—</div>
+          <div class="kpi-grade" id="kpiGrade">Grade: —</div>
+          <div class="kpi-ring-wrap"><canvas id="savingsRing" width="64" height="64"></canvas></div>
+          <div class="kpi-glow" style="background:var(--accent)"></div>
+        </div>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-card glass-card wide">
+          <div class="chart-card-header">
+            <span class="chart-title">Daily Cash Flow</span>
+            <div class="chart-legend-inline" id="barLegend"></div>
+          </div>
+          <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+        </div>
+        <div class="chart-card glass-card">
+          <div class="chart-card-header"><span class="chart-title">By Category</span></div>
+          <div class="chart-wrap donut-wrap">
+            <canvas id="donutChart"></canvas>
+            <div class="donut-center-text" id="donutCenter"><div class="dc-val">₹0</div><div class="dc-sub">total</div></div>
+          </div>
+          <div class="donut-legend" id="donutLegend"></div>
+        </div>
+      </div>
+      <div class="section-head">
+        <span class="section-title">Recurring Detected</span>
+        <span class="section-badge" id="subCount">0</span>
+      </div>
+      <div class="sub-list" id="subList"></div>
+      <div class="section-head">
+        <span class="section-title">Recent Activity</span>
+        <button class="link-btn" onclick="switchView('transactions',document.querySelector('[data-view=transactions]'))">View all →</button>
+      </div>
+      <div class="tx-list" id="recentList"></div>
+    </section>
+
+    <!-- TRANSACTIONS -->
+    <section class="view" id="view-transactions">
+      <div class="view-header">
+        <div><h1 class="view-title">Transactions</h1><p class="view-sub" id="txCount">0 records</p></div>
+        <button class="action-btn primary" onclick="openModal()">＋ Add</button>
+      </div>
+      <div class="filter-bar">
+        <div class="search-wrap"><span class="search-icon">⌕</span><input class="search-input" id="searchInput" type="text" placeholder="Search transactions…" oninput="render()"/></div>
+        <div class="filter-pills" id="filterPills">
+          <button class="fpill active" onclick="setFilter('All',this)">All</button>
+          <button class="fpill" onclick="setFilter('income',this)">Income</button>
+          <button class="fpill" onclick="setFilter('expense',this)">Expense</button>
+        </div>
+        <select class="sort-select" id="sortSelect" onchange="render()">
+          <option value="date-desc">Newest first</option>
+          <option value="date-asc">Oldest first</option>
+          <option value="amount-desc">Highest amount</option>
+          <option value="amount-asc">Lowest amount</option>
+        </select>
+      </div>
+      <div class="tx-list" id="txList"></div>
+    </section>
+
+    <!-- ANALYTICS -->
+    <section class="view" id="view-analytics">
+      <div class="view-header"><div><h1 class="view-title">Analytics</h1><p class="view-sub">Deep AI-powered insights</p></div></div>
+      <div class="analytics-grid">
+        <div class="chart-card glass-card wide">
+          <div class="chart-card-header"><span class="chart-title">6-Month Trend</span><div class="trend-legend"><span class="tl-dot income"></span>Income <span class="tl-dot expense"></span>Expense</div></div>
+          <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+        </div>
+        <div class="chart-card glass-card">
+          <div class="chart-card-header"><span class="chart-title">Spending Radar</span></div>
+          <div class="chart-wrap"><canvas id="radarChart"></canvas></div>
+        </div>
+        <div class="chart-card glass-card">
+          <div class="chart-card-header"><span class="chart-title">Top Categories</span></div>
+          <div class="chart-wrap"><canvas id="hbarChart"></canvas></div>
+        </div>
+        <div class="chart-card glass-card wide">
+          <div class="chart-card-header"><span class="chart-title">Category Breakdown</span></div>
+          <div class="stats-table" id="statsTable"></div>
+        </div>
+        <div class="chart-card glass-card wide">
+          <div class="chart-card-header"><span class="chart-title">30-Day Spending Heatmap</span></div>
+          <div class="heatmap-wrap" id="heatmapWrap"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUDGET -->
+    <section class="view" id="view-budget">
+      <div class="view-header"><div><h1 class="view-title">Budget Limits</h1><p class="view-sub">Monthly spending controls</p></div></div>
+      <div class="budget-grid" id="budgetGrid"></div>
+      <button class="fab" onclick="openBudgetModal()">＋</button>
+    </section>
+
+    <!-- AI ADVISOR -->
+    <section class="view" id="view-ai">
+      <div class="view-header"><div><h1 class="view-title">✦ AI Advisor</h1><p class="view-sub">Advanced behavioral financial intelligence — Powered by Claude AI</p></div></div>
+      <div class="health-score-card glass-card">
+        <div class="hsc-left">
+          <div class="hsc-label">Financial Health Score</div>
+          <div class="hsc-score" id="healthScoreBig">72</div>
+          <div class="hsc-grade" id="healthGradeBig">B+</div>
+          <div class="hsc-desc" id="healthDescBig">Good financial discipline. Keep building.</div>
+        </div>
+        <div class="hsc-right"><canvas id="healthGauge" width="180" height="180"></canvas></div>
+      </div>
+      <div class="health-breakdown" id="healthBreakdown"></div>
+      <div class="section-head"><span class="section-title">✦ Spending Behavior Analysis</span></div>
+      <div class="ai-insights-grid" id="behaviorGrid"></div>
+      <div class="section-head"><span class="section-title">AI Insights</span><button class="link-btn" onclick="generateAIInsights()">↻ Refresh</button></div>
+      <div class="ai-insights-grid" id="aiInsightsGrid"></div>
+      <div class="section-head"><span class="section-title">Next Month Prediction</span></div>
+      <div class="prediction-card glass-card" id="predictionCard"></div>
+      <div class="section-head"><span class="section-title">Subscription Manager</span></div>
+      <div class="sub-analysis" id="subAnalysis"></div>
+    </section>
+
+    <!-- GOALS -->
+    <section class="view" id="view-goals">
+      <div class="view-header">
+        <div><h1 class="view-title">Savings Goals</h1><p class="view-sub">Track your financial milestones</p></div>
+        <button class="action-btn primary" onclick="openGoalModal()">＋ Add Goal</button>
+      </div>
+      <div class="goals-grid" id="goalsGrid"></div>
+    </section>
+
+    <!-- INVESTMENTS -->
+    <section class="view" id="view-investments">
+      <div class="view-header">
+        <div><h1 class="view-title">Portfolio</h1><p class="view-sub">Track your investments</p></div>
+        <button class="action-btn primary" onclick="openInvestModal()">＋ Add Asset</button>
+      </div>
+      <div class="invest-summary glass-card" id="investSummary"></div>
+      <div style="margin-top:16px"></div>
+      <div class="invest-grid" id="investGrid"></div>
+    </section>
+
+    <!-- WALLETS -->
+    <section class="view" id="view-wallets">
+      <div class="view-header">
+        <div><h1 class="view-title">Smart Wallets</h1><p class="view-sub">Manage all your accounts</p></div>
+        <button class="action-btn primary" onclick="openWalletModal()">＋ Add Wallet</button>
+      </div>
+      <div class="wallets-grid" id="walletsGrid"></div>
+      <div class="section-head"><span class="section-title">Balance Distribution</span></div>
+      <div class="chart-card glass-card" style="padding:22px;margin-bottom:24px;">
+        <div class="chart-wrap"><canvas id="walletChart"></canvas></div>
+      </div>
+    </section>
+
+    <!-- CALENDAR -->
+    <section class="view" id="view-calendar">
+      <div class="view-header">
+        <div><h1 class="view-title">Financial Calendar</h1><p class="view-sub">Bills, EMIs &amp; reminders</p></div>
+        <button class="action-btn primary" onclick="openCalEventModal()">＋ Add Event</button>
+      </div>
+      <div id="calendarWrap"></div>
+      <div class="section-head"><span class="section-title">Upcoming Events</span></div>
+      <div class="cal-event-list" id="calEventList"></div>
+    </section>
+
+    <!-- GAMIFICATION -->
+    <section class="view" id="view-gamification">
+      <div class="view-header"><div><h1 class="view-title">Achievements</h1><p class="view-sub">Your financial journey</p></div></div>
+      <div class="xp-bar-card glass-card" id="xpBarCard"></div>
+      <div class="section-head"><span class="section-title">Achievements</span></div>
+      <div class="achievements-grid" id="achievementsGrid"></div>
+      <div class="section-head"><span class="section-title">Daily Challenges</span></div>
+      <div class="challenges-list" id="challengesList"></div>
+    </section>
+
+  </div><!-- /main-wrap -->
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="bn-btn active" onclick="switchViewMobile('dashboard',this)"><span class="bn-icon">⬡</span>Home</button>
+    <button class="bn-btn" onclick="switchViewMobile('transactions',this)"><span class="bn-icon">⇄</span>Txns</button>
+    <button class="bn-add" onclick="openModal()">＋</button>
+    <button class="bn-btn" onclick="switchViewMobile('analytics',this)"><span class="bn-icon">◎</span>Stats</button>
+    <button class="bn-btn" onclick="switchViewMobile('ai',this)"><span class="bn-icon">✦</span>AI</button>
+  </nav>
+
+  <!-- AI CHAT FAB -->
+  <button class="ai-chat-fab" id="aiChatFab" onclick="toggleAIChat()">✦</button>
+
+  <!-- AI CHAT PANEL -->
+  <div class="ai-chat-panel" id="aiChatPanel">
+    <div class="acp-header">
+      <div class="acp-title">
+        <div class="acp-orb">✦</div>
+        <div>
+          <div>Spendly AI</div>
+          <div class="acp-status">● CLAUDE POWERED</div>
+        </div>
+      </div>
+      <button class="acp-close" onclick="toggleAIChat()">✕</button>
+    </div>
+    <div class="acp-messages" id="acpMessages">
+      <div class="acp-msg ai-msg">
+        <div class="acp-bubble">👋 Hi! I'm your AI financial advisor, powered by Claude. Ask me anything about your finances — spending patterns, savings tips, investment advice, and more!</div>
+      </div>
+    </div>
+    <div class="acp-input-wrap">
+      <input class="acp-input" id="acpInput" type="text" placeholder="Ask about your finances…" onkeydown="if(event.key==='Enter')sendAIChat()"/>
+      <button class="acp-send" id="acpSendBtn" onclick="sendAIChat()">→</button>
+    </div>
+  </div>
+
+  <!-- NOTIFICATIONS PANEL -->
+  <div class="notif-panel" id="notifPanel">
+    <div class="np-header">
+      <div class="np-title">🔔 Notifications</div>
+      <button class="np-close" onclick="closeNotifications()">✕</button>
+    </div>
+    <div class="np-list" id="npList"></div>
+  </div>
+
+  <!-- THEME PANEL -->
+  <div class="theme-panel" id="themePanel">
+    <div class="tp-header">
+      <div class="tp-title">🎨 Customize</div>
+      <button class="tp-close" onclick="closeThemePanel()">✕</button>
+    </div>
+    <div class="tp-body">
+      <div class="tp-section">
+        <div class="tp-section-label">Color Mode</div>
+        <div class="theme-modes">
+          <div class="tm-btn active" onclick="setUIMode('default',this)"><div class="tm-btn-icon">🌌</div><div class="tm-btn-label">Default</div></div>
+          <div class="tm-btn" onclick="setUIMode('amoled',this)"><div class="tm-btn-icon">⬛</div><div class="tm-btn-label">AMOLED</div></div>
+          <div class="tm-btn" onclick="setUIMode('neon',this)"><div class="tm-btn-icon">💚</div><div class="tm-btn-label">Neon</div></div>
+          <div class="tm-btn" onclick="setUIMode('cyberpunk',this)"><div class="tm-btn-icon">🟣</div><div class="tm-btn-label">Cyberpunk</div></div>
+          <div class="tm-btn" onclick="setUIMode('gold',this)"><div class="tm-btn-icon">🥇</div><div class="tm-btn-label">Luxury Gold</div></div>
+          <div class="tm-btn" onclick="toggleTheme()"><div class="tm-btn-icon">☀️</div><div class="tm-btn-label">Light Mode</div></div>
+        </div>
+      </div>
+      <div class="tp-section">
+        <div class="tp-section-label">Accent Color</div>
+        <div class="accent-swatches">
+          <div class="ac-swatch active" style="background:#6c47ff" onclick="setAccent('#6c47ff','#4488ff',this)"></div>
+          <div class="ac-swatch" style="background:#e11d48" onclick="setAccent('#e11d48','#f43f5e',this)"></div>
+          <div class="ac-swatch" style="background:#0ea5e9" onclick="setAccent('#0ea5e9','#38bdf8',this)"></div>
+          <div class="ac-swatch" style="background:#10b981" onclick="setAccent('#10b981','#34d399',this)"></div>
+          <div class="ac-swatch" style="background:#f59e0b" onclick="setAccent('#f59e0b','#fbbf24',this)"></div>
+          <div class="ac-swatch" style="background:#8b5cf6" onclick="setAccent('#8b5cf6','#a78bfa',this)"></div>
+          <div class="ac-swatch" style="background:#06b6d4" onclick="setAccent('#06b6d4','#22d3ee',this)"></div>
+          <div class="ac-swatch" style="background:#ec4899" onclick="setAccent('#ec4899','#f472b6',this)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay-bg" id="overlayBg" onclick="closeAllPanels()"></div>
+
+</div><!-- /app-shell -->
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal glass-modal" id="modal">
+    <div class="modal-head"><span class="modal-title">New Transaction</span><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="type-toggle">
+      <button class="tt-btn active expense-btn" onclick="setType('expense',this)">− Expense</button>
+      <button class="tt-btn income-btn" onclick="setType('income',this)">＋ Income</button>
+    </div>
+    <div class="modal-form">
+      <div class="mf-group"><label>Description</label><input type="text" id="desc" placeholder="e.g. Coffee, Rent, Salary…" maxlength="40" autocomplete="off"/></div>
+      <div class="mf-row">
+        <div class="mf-group"><label>Amount (₹)</label><input type="number" id="amount" placeholder="0.00" min="0" step="0.01"/></div>
+        <div class="mf-group"><label>Date</label><input type="date" id="date"/></div>
+      </div>
+      <div class="mf-group"><label>Category</label><div class="cat-grid" id="catGrid"></div></div>
+      <div class="mf-group"><label>Note (optional)</label><input type="text" id="note" placeholder="Any extra detail…" maxlength="80"/></div>
+    </div>
+    <div class="modal-actions">
+      <button class="submit-btn" id="submitBtn" onclick="addTransaction()">Add Transaction</button>
+      <button id="voiceBtn" class="voice-btn" style="display:none">🎙️</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="budgetModalOverlay" onclick="closeBudgetModal(event)">
+  <div class="modal glass-modal">
+    <div class="modal-head"><span class="modal-title">Set Budget Limit</span><button class="modal-close" onclick="closeBudgetModal()">✕</button></div>
+    <div class="modal-form">
+      <div class="mf-group"><label>Category</label><select id="budgetCat"></select></div>
+      <div class="mf-group"><label>Monthly Limit (₹)</label><input type="number" id="budgetAmt" placeholder="e.g. 5000" min="0" step="100"/></div>
+    </div>
+    <div style="margin-top:24px"><button class="submit-btn" onclick="saveBudget()">Save Budget</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="goalModalOverlay" onclick="closeGoalModal(event)">
+  <div class="modal glass-modal">
+    <div class="modal-head"><span class="modal-title">Add Savings Goal</span><button class="modal-close" onclick="closeGoalModal()">✕</button></div>
+    <div class="modal-form">
+      <div class="mf-group"><label>Goal Name</label><input type="text" id="goalName" placeholder="e.g. Emergency Fund, Trip to Goa"/></div>
+      <div class="mf-group"><label>Emoji</label>
+        <select id="goalEmoji"><option>🏖️</option><option>🏠</option><option>💻</option><option>🚗</option><option>💍</option><option>🎓</option><option>✈️</option><option>💰</option><option>🛡️</option><option>📱</option><option>🎮</option><option>🌍</option></select>
+      </div>
+      <div class="mf-row">
+        <div class="mf-group"><label>Target Amount (₹)</label><input type="number" id="goalTarget" placeholder="50000"/></div>
+        <div class="mf-group"><label>Saved So Far (₹)</label><input type="number" id="goalSaved" placeholder="0"/></div>
+      </div>
+      <div class="mf-group"><label>Target Date</label><input type="date" id="goalDate"/></div>
+    </div>
+    <div style="margin-top:24px"><button class="submit-btn" onclick="saveGoal()">Add Goal</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="investModalOverlay" onclick="closeInvestModal(event)">
+  <div class="modal glass-modal">
+    <div class="modal-head"><span class="modal-title">Add Investment</span><button class="modal-close" onclick="closeInvestModal()">✕</button></div>
+    <div class="modal-form">
+      <div class="mf-group"><label>Asset Name</label><input type="text" id="investName" placeholder="e.g. Nifty 50 SIP"/></div>
+      <div class="mf-group"><label>Asset Type</label>
+        <select id="investType">
+          <option value="mutual_fund">📈 Mutual Fund / SIP</option>
+          <option value="stocks">📊 Stocks</option>
+          <option value="crypto">🪙 Crypto</option>
+          <option value="gold">🥇 Gold</option>
+          <option value="fd">🏦 Fixed Deposit</option>
+          <option value="emergency">🛡️ Emergency Fund</option>
+        </select>
+      </div>
+      <div class="mf-row">
+        <div class="mf-group"><label>Invested (₹)</label><input type="number" id="investAmount" placeholder="10000"/></div>
+        <div class="mf-group"><label>Current Value (₹)</label><input type="number" id="investCurrent" placeholder="12000"/></div>
+      </div>
+    </div>
+    <div style="margin-top:24px"><button class="submit-btn" onclick="saveInvestment()">Add Investment</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="walletModalOverlay" onclick="closeWalletModal(event)">
+  <div class="modal glass-modal">
+    <div class="modal-head"><span class="modal-title">Add Wallet</span><button class="modal-close" onclick="closeWalletModal()">✕</button></div>
+    <div class="modal-form">
+      <div class="mf-group"><label>Wallet Name</label><input type="text" id="walletName" placeholder="e.g. HDFC Bank, Cash, UPI"/></div>
+      <div class="mf-group"><label>Type</label>
+        <select id="walletType">
+          <option value="cash">💵 Cash</option><option value="bank">🏦 Bank Account</option>
+          <option value="upi">📲 UPI / Digital</option><option value="crypto">🪙 Crypto</option>
+          <option value="savings">💰 Savings Account</option><option value="credit">💳 Credit Card</option>
+        </select>
+      </div>
+      <div class="mf-group"><label>Current Balance (₹)</label><input type="number" id="walletBalance" placeholder="10000"/></div>
+    </div>
+    <div style="margin-top:24px"><button class="submit-btn" onclick="saveWallet()">Add Wallet</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="calEventModalOverlay" onclick="closeCalEventModal(event)">
+  <div class="modal glass-modal">
+    <div class="modal-head"><span class="modal-title">Add Calendar Event</span><button class="modal-close" onclick="closeCalEventModal()">✕</button></div>
+    <div class="modal-form">
+      <div class="mf-group"><label>Event Name</label><input type="text" id="calEventName" placeholder="e.g. Rent Due, Netflix Renewal"/></div>
+      <div class="mf-group"><label>Type</label>
+        <select id="calEventType">
+          <option value="bill">💡 Bill Payment</option><option value="emi">🏠 EMI</option>
+          <option value="sip">📈 SIP</option><option value="salary">💼 Salary Day</option>
+          <option value="subscription">🔄 Subscription Renewal</option><option value="reminder">🔔 Reminder</option>
+        </select>
+      </div>
+      <div class="mf-row">
+        <div class="mf-group"><label>Date</label><input type="date" id="calEventDate"/></div>
+        <div class="mf-group"><label>Amount (₹, optional)</label><input type="number" id="calEventAmount" placeholder="0"/></div>
+      </div>
+    </div>
+    <div style="margin-top:24px"><button class="submit-btn" onclick="saveCalEvent()">Add Event</button></div>
+  </div>
+</div>
+
+<div class="export-menu" id="exportMenu">
+  <button onclick="exportCSV()">📊 Export CSV</button>
+  <button onclick="exportJSON()">📦 Export JSON</button>
+  <button onclick="printReport()">🖨️ Print / PDF</button>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<!-- EXTERNAL SCRIPTS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
